@@ -1,0 +1,3 @@
+@tailwind components;
+@tailwind utilities;
+/* remove the base styles as they will override some mantine styles. */

@@ -3,6 +3,7 @@ import { API_BASE_URL } from '../../utils/constants';
 
 export const publicAxiosClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },

@@ -1,17 +1,20 @@
 import publicAxiosClient from '../configs/httpClient/publicAxiosClient';
-import { API_BASE_URL } from '../utils/constants';
-import { setLocalAccessToken, removeLocalAccessToken } from '../utils/token';
-
+import { setLocalAccessToken } from '../utils/token';
+import { store } from '../redux/store';
+import { updateAccessToken } from '../redux/slices/AuthSlice';
 export default class TokenServices {
   static async updateRefreshToken() {
     try {
-      const response = await publicAxiosClient.get(`/refresh`);
+      const response = await publicAxiosClient.get(`auth/refresh`);
       const { accessToken } = response.data;
       if (accessToken) {
         setLocalAccessToken(accessToken);
+        store.dispatch(
+          updateAccessToken({ accessToken: accessToken, isLogin: true })
+        );
       } else throw new Error('accessToken is null');
     } catch (e) {
-      removeLocalAccessToken();
+      throw new Error('Refresh Token is expired');
     }
   }
 }
